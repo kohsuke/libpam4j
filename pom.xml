@@ -3,7 +3,7 @@
   <groupId>org.jvnet.libpam4j</groupId>
   <artifactId>libpam4j</artifactId>
   <packaging>jar</packaging>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Java binding for libpam.so</name>
 
   <distributionManagement>
@@ -18,9 +18,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:svn:https://svn.dev.java.net/svn/libpam4j/tags/libpam4j-1.1</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/libpam4j/tags/libpam4j-1.1</developerConnection>
-    <url>https://libpam4j.dev.java.net/source/browse/libpam4j/tags/libpam4j-1.1</url>
+    <connection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</developerConnection>
+    <url>https://libpam4j.dev.java.net/source/browse/libpam4j/trunk/libpam4j/</url>
   </scm>
 
   <build>
