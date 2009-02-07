@@ -11,17 +11,16 @@
       <id>java.net-m2-repository</id>
       <url>java-net:/maven2-repository/trunk/www/repository/</url>
     </repository>
+    <site>
+      <id>libpam4j-www</id>
+      <url>java-net:/libpam4j/trunk/www/</url>
+    </site>
   </distributionManagement>
 
-  <repositories>
-    <repository>
-      <id>don-asf-repository</id>
-      <url>http://people.apache.org/~mrdon/repository/</url>
-    </repository>
-  </repositories>
-  
   <scm>
-    <connection>scm:git:git://github.com/kohsuke/libpam4j.git</connection>
+    <connection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</developerConnection>
+    <url>https://libpam4j.dev.java.net/source/browse/libpam4j/trunk/libpam4j/</url>
   </scm>
 
   <build>
@@ -32,17 +31,6 @@
           <source>1.5</source>
           <target>1.5</target>
         </configuration>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.1-db-1</version>
-            </dependency>
-          </dependencies>
       </plugin>
     </plugins>
     <extensions>
