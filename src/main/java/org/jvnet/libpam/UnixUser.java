@@ -77,4 +77,8 @@ public final class UnixUser {
     public Set<String> getGroups() {
         return Collections.unmodifiableSet(groups);
     }
+
+    public static boolean exists(String name) {
+        return libc.getpwnam(name)!=null;
+    }
 }

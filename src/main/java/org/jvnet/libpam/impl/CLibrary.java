@@ -42,6 +42,7 @@ public interface CLibrary extends Library {
 
     int getgrouplist(String user, int/*gid_t*/ group, Memory groups, IntByReference ngroups);
     group getgrgid(int/*gid_t*/ gid);
+    group getgrnam(String name);
 
     // other user/group related functions that are likely useful
     // see http://www.gnu.org/software/libc/manual/html_node/Users-and-Groups.html#Users-and-Groups
