@@ -61,13 +61,14 @@ public final class UnixUser {
                     // shouldn't happen, but just in case.
                     throw new PAMException("getgrouplist failed");
             }
+            ngroups = pngroups.getValue();
         } catch (LinkageError e) {
             // some platform, notably Solaris, doesn't have the getgrouplist function
-            if(libc._getgroupsbymember(userName,m,ngroups,0)<0)
+            ngroups = libc._getgroupsbymember(userName,m,ngroups,0);
+            if (ngroups<0)
                 throw new PAMException("_getgroupsbymember failed");
         }
 
-        ngroups = pngroups.getValue();
         groups = new HashSet<String>();
         for( int i=0; i<ngroups; i++ ) {
             int gid = m.getInt(i * sz);
