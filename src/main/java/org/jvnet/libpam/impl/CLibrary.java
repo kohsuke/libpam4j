@@ -63,7 +63,17 @@ public interface CLibrary extends Library {
     Pointer strdup(String s);
     passwd getpwnam(String username);
 
+    /**
+     * Lists up group IDs of the given user. On Linux and most BSDs, but not on Solaris.
+     * See http://www.gnu.org/software/hello/manual/gnulib/getgrouplist.html
+     */
     int getgrouplist(String user, int/*gid_t*/ group, Memory groups, IntByReference ngroups);
+
+    /**
+     * getgrouplist equivalent on Solaris.
+     * See http://mail.opensolaris.org/pipermail/sparks-discuss/2008-September/000528.html
+     */
+    int _getgroupsbymember(String user, Memory groups, int maxgids, int numgids);
     group getgrgid(int/*gid_t*/ gid);
     group getgrnam(String name);
 

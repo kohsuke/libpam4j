@@ -53,12 +53,18 @@ public final class UnixUser {
         int ngroups = 64;
         Memory m = new Memory(ngroups*sz);
         IntByReference pngroups = new IntByReference(ngroups);
-        if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0) {
-            // allocate a bigger memory
-            m = new Memory(pngroups.getValue()*sz);
-            if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0)
-                // shouldn't happen, but just in case.
-                throw new PAMException("getgrouplist failed");
+        try {
+            if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0) {
+                // allocate a bigger memory
+                m = new Memory(pngroups.getValue()*sz);
+                if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0)
+                    // shouldn't happen, but just in case.
+                    throw new PAMException("getgrouplist failed");
+            }
+        } catch (LinkageError e) {
+            // some platform, notably Solaris, doesn't have the getgrouplist function
+            if(libc._getgroupsbymember(userName,m,ngroups,0)<0)
+                throw new PAMException("_getgroupsbymember failed");
         }
 
         ngroups = pngroups.getValue();
