@@ -31,6 +31,7 @@ import static org.jvnet.libpam.impl.CLibrary.libc;
 import com.sun.jna.Pointer;
 import static com.sun.jna.Native.POINTER_SIZE;
 import com.sun.jna.ptr.PointerByReference;
+import java.util.Set;
 
 import java.util.logging.Logger;
 
@@ -137,6 +138,27 @@ public class PAM {
     }
 
     /**
+     * Returns the groups a user belongs to
+     * @param username
+     * @return Set of group names
+     * @throws PAMException
+     */
+
+    public Set<String> getGroupsOfUser(String username) throws PAMException {
+
+        check(libpam.pam_set_item(pht, PAM_USER, username), "pam_set_item failed");
+        PointerByReference r = new PointerByReference();
+        check(libpam.pam_get_item(pht, PAM_USER, r), "pam_get_item failed");
+        String userName = r.getValue().getString(0);
+        passwd pwd = libc.getpwnam(userName);
+        if (pwd == null) {
+            throw new PAMException("No user information is available");
+        }
+        UnixUser u = new UnixUser(userName, pwd);
+        return u.getGroups();
+    }
+
+    /**
      * After a successful authentication, call this method to obtain the effective user name.
      * This can be different from the user name that you passed to the {@link #authenticate(String, String)}
      * method.
@@ -157,6 +179,7 @@ public class PAM {
             pht=null;
         }
     }
+
 
     @Override
     protected void finalize() throws Throwable {

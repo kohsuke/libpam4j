@@ -51,6 +51,10 @@ public class InteractiveTester extends TestCase {
         }
     }
 
+    public void testGetGroups() throws Exception {
+        System.out.println(new PAM("sshd").getGroupsOfUser(System.getProperty("user.name")));
+    }
+
     public void testConcurrent() throws Exception {
         ExecutorService es = Executors.newFixedThreadPool(10);
         Set<Future<?>> result = new HashSet<Future<?>>();
