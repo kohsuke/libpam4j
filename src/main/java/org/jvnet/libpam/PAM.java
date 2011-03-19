@@ -142,20 +142,11 @@ public class PAM {
      * @param username
      * @return Set of group names
      * @throws PAMException
+     * @deprecated
+     *      Pointless and ugly convenience method.
      */
-
     public Set<String> getGroupsOfUser(String username) throws PAMException {
-
-        check(libpam.pam_set_item(pht, PAM_USER, username), "pam_set_item failed");
-        PointerByReference r = new PointerByReference();
-        check(libpam.pam_get_item(pht, PAM_USER, r), "pam_get_item failed");
-        String userName = r.getValue().getString(0);
-        passwd pwd = libc.getpwnam(userName);
-        if (pwd == null) {
-            throw new PAMException("No user information is available");
-        }
-        UnixUser u = new UnixUser(userName, pwd);
-        return u.getGroups();
+        return new UnixUser(username).getGroups();
     }
 
     /**

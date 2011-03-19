@@ -29,6 +29,7 @@ import com.sun.jna.Library;
 import com.sun.jna.Structure;
 import com.sun.jna.Memory;
 import com.sun.jna.ptr.IntByReference;
+import org.jvnet.libpam.PAMException;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -52,6 +53,14 @@ public interface CLibrary extends Library {
         public int pw_gid;
 
         // ... there are a lot more fields
+
+        public static passwd loadPasswd(String userName) throws PAMException {
+            passwd pwd = libc.getpwnam(userName);
+            if (pwd == null) {
+                throw new PAMException("No user information is available");
+            }
+            return pwd;
+        }
     }
 
     public class group extends Structure {

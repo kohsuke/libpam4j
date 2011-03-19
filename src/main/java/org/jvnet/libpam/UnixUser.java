@@ -77,6 +77,10 @@ public final class UnixUser {
         }
     }
 
+    public UnixUser(String userName) throws PAMException {
+        this(userName, passwd.loadPasswd(userName));
+    }
+
     /**
      * Gets the unix account name. Never null.
      */
