@@ -31,19 +31,21 @@
 
   <distributionManagement>
     <repository>
-      <id>java.net-m2-repository</id>
-      <url>java-net:/maven2-repository/trunk/repository/</url>
+        <id>java.net-m2-repository</id>
+        <url>java-net:/maven2-repository~svn/trunk/repository/</url>
     </repository>
+<!--
     <site>
       <id>libpam4j-www</id>
       <url>java-net:/libpam4j/trunk/www/</url>
     </site>
+-->
   </distributionManagement>
 
   <scm>
-    <connection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/libpam4j/trunk/libpam4j</developerConnection>
-    <url>https://libpam4j.dev.java.net/source/browse/libpam4j/trunk/libpam4j/</url>
+    <connection>scm:svn:https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</developerConnection>
+    <url>https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</url>
   </scm>
 
   <licenses>
@@ -68,7 +70,7 @@
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
-        <version>1.8</version>
+        <version>1.12</version>
       </extension>
     </extensions>
   </build>
