@@ -23,6 +23,7 @@
  */
 package org.jvnet.libpam.impl;
 
+import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.Native;
 import com.sun.jna.Library;
@@ -61,6 +62,34 @@ public interface CLibrary extends Library {
             }
             return pwd;
         }
+
+        public String getPwName() {
+            return pw_name;
+        }
+
+        public String getPwPasswd() {
+            return pw_passwd;
+        }
+
+        public int getPwUid() {
+            return pw_uid;
+        }
+
+        public int getPwGid() {
+            return pw_gid;
+        }
+
+        public String getPwGecos() {
+            return null;
+        }
+
+        public String getPwDir() {
+            return null;
+        }
+
+        public String getPwShell() {
+            return null;
+        }
     }
 
     public class group extends Structure {
@@ -90,5 +119,19 @@ public interface CLibrary extends Library {
     // see http://www.gnu.org/software/libc/manual/html_node/Users-and-Groups.html#Users-and-Groups
 
 
-    public static final CLibrary libc = (CLibrary)Native.loadLibrary("c",CLibrary.class);
+    public static final CLibrary libc = Instance.init();
+
+    static class Instance {
+        private static CLibrary init() {
+            if (Platform.isMac() || Platform.isFreeBSD() || Platform.isOpenBSD()) {
+                return (CLibrary) Native.loadLibrary("c", BSDCLibrary.class);
+            } else if (Platform.isSolaris()) {
+                return (CLibrary) Native.loadLibrary("c", SolarisCLibrary.class);
+            } else if (Platform.isLinux()) {
+                return (CLibrary) Native.loadLibrary("c", LinuxCLibrary.class);
+            } else {
+                return (CLibrary) Native.loadLibrary("c", CLibrary.class);
+            }
+        }
+    }
 }

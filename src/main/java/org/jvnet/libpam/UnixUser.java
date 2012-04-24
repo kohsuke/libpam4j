@@ -39,14 +39,17 @@ import java.util.Set;
  * @author Kohsuke Kawaguchi
  */
 public final class UnixUser {
-    private final String userName;
+    private final String userName, gecos, dir, shell;
     private final int uid,gid;
     private final Set<String> groups;
 
     /*package*/ UnixUser(String userName, passwd pwd) throws PAMException {
         this.userName = userName;
-        this.uid = pwd.pw_uid;
-        this.gid = pwd.pw_gid;
+        this.gecos = pwd.getPwGecos();
+        this.dir = pwd.getPwDir();
+        this.shell = pwd.getPwShell();
+        this.uid = pwd.getPwUid();
+        this.gid = pwd.getPwGid();
 
         int sz = 4; /*sizeof(gid_t)*/
 
@@ -54,10 +57,10 @@ public final class UnixUser {
         Memory m = new Memory(ngroups*sz);
         IntByReference pngroups = new IntByReference(ngroups);
         try {
-            if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0) {
+            if(libc.getgrouplist(userName,pwd.getPwGid(),m,pngroups)<0) {
                 // allocate a bigger memory
                 m = new Memory(pngroups.getValue()*sz);
-                if(libc.getgrouplist(userName,pwd.pw_gid,m,pngroups)<0)
+                if(libc.getgrouplist(userName,pwd.getPwGid(),m,pngroups)<0)
                     // shouldn't happen, but just in case.
                     throw new PAMException("getgrouplist failed");
             }
@@ -103,6 +106,27 @@ public final class UnixUser {
      */
     public int getGID() {
         return gid;
+    }
+
+    /**
+     * Gets the gecos (the real name) of this user.
+     */
+    public String getGecos() {
+        return gecos;
+    }
+
+    /**
+     * Gets the home directory of this user.
+     */
+    public String getDir() {
+        return dir;
+    }
+
+    /**
+     * Gets the shell of this user.
+     */
+    public String getShell() {
+        return shell;
     }
 
     /**

@@ -86,6 +86,9 @@ public class InteractiveTester extends TestCase {
         UnixUser u = new PAM("sshd").authenticate(args[0], args[1]);
         System.out.println(u.getUID());
         System.out.println(u.getGroups());
+        System.out.println(u.getGecos());
+        System.out.println(u.getDir());
+        System.out.println(u.getShell());
     }
 
     private boolean printOnce;
