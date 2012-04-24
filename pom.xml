@@ -23,30 +23,29 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.jvnet.libpam4j</groupId>
+  <parent>
+    <groupId>org.kohsuke</groupId>
+    <artifactId>pom</artifactId>
+    <version>3</version>
+  </parent>
+
   <artifactId>libpam4j</artifactId>
   <packaging>jar</packaging>
   <version>1.5-SNAPSHOT</version>
   <name>Java binding for libpam.so</name>
 
-  <distributionManagement>
-    <repository>
-        <id>java.net-m2-repository</id>
-        <url>java-net:/maven2-repository~svn/trunk/repository/</url>
-    </repository>
-<!--
-    <site>
-      <id>libpam4j-www</id>
-      <url>java-net:/libpam4j/trunk/www/</url>
-    </site>
--->
-  </distributionManagement>
-
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</developerConnection>
-    <url>https://svn.java.net/svn/libpam4j~svn/trunk/libpam4j</url>
+    <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
+    <url>http://${project.artifactId}.kohsuke.org/</url>
   </scm>
+
+  <distributionManagement>
+    <site>
+      <id>github-pages</id>
+      <url>gitsite:git@github.com/kohsuke/${project.artifactId}.git</url>
+    </site>
+  </distributionManagement>
 
   <licenses>
     <license>
@@ -66,13 +65,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.12</version>
-      </extension>
-    </extensions>
   </build>
   <dependencies>
     <dependency>
@@ -87,30 +79,4 @@
       <version>3.2.2</version>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>m.g.o-public</id>
-      <url>http://maven.glassfish.org/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>m.g.o-public</id>
-      <url>http://maven.glassfish.org/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 </project>
