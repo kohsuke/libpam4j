@@ -73,6 +73,9 @@ public final class UnixUser {
         for( int i=0; i<ngroups; i++ ) {
             int gid = m.getInt(i * sz);
             group grp = libc.getgrgid(gid);
+            if( grp == null ) {
+            	 continue;
+            }
             groups.add(grp.gr_name);
         }
     }
