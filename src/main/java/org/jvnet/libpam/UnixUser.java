@@ -38,13 +38,13 @@ import java.util.Set;
  *
  * @author Kohsuke Kawaguchi
  */
-public class UnixUser {
-    private final String userName, gecos, dir, shell;
+public class UnixUser extends AuthenticatedUser {
+    private final String gecos, dir, shell;
     private final int uid,gid;
     private final Set<String> groups;
 
     /*package*/ UnixUser(String userName, passwd pwd) throws PAMException {
-        this.userName = userName;
+        super(userName);
         this.gecos = pwd.getPwGecos();
         this.dir = pwd.getPwDir();
         this.shell = pwd.getPwShell();
@@ -91,21 +91,14 @@ public class UnixUser {
      * Copy constructor for mocking. Not intended for regular use. Only for testing.
      * This signature may change in the future.
      */
-    protected UnixUser(String userName, String gecos, String dir, String shell, int uid, int gid, Set<String> groups) {
-        this.userName = userName;
+    protected UnixUser(String userName, String gecos, String dir, String shell, int uid, int gid, Set<String> groups) throws PAMException {
+        super(userName);
         this.gecos = gecos;
         this.dir = dir;
         this.shell = shell;
         this.uid = uid;
         this.gid = gid;
         this.groups = groups;
-    }
-
-    /**
-     * Gets the unix account name. Never null.
-     */
-    public String getUserName() {
-        return userName;
     }
 
     /**
