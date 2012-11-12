@@ -117,7 +117,7 @@ public class PAM {
      * @throws PAMException
      *      If the authentication fails.
      */
-    public UnixUser authenticate(String username, String password) throws PAMException {
+    public AuthenticatedUser authenticate(String username, String password) throws PAMException {
         this.password = password;
         try {
             check(libpam.pam_set_item(pht,PAM_USER,username),"pam_set_item failed");
