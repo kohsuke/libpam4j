@@ -30,6 +30,8 @@ import com.sun.jna.Library;
 import com.sun.jna.Structure;
 import com.sun.jna.Memory;
 import com.sun.jna.ptr.IntByReference;
+import java.util.Arrays;
+import java.util.List;
 import org.jvnet.libpam.PAMException;
 
 /**
@@ -90,11 +92,19 @@ public interface CLibrary extends Library {
         public String getPwShell() {
             return null;
         }
+
+        protected List getFieldOrder() {
+            return Arrays.asList("pw_name", "pw_passwd", "pw_uid", "pw_gid");
+        }
     }
 
     public class group extends Structure {
         public String gr_name;
         // ... the rest of the field is not interesting for us
+
+        protected List getFieldOrder() {
+            return Arrays.asList("gr_name");
+        }
     }
 
     Pointer calloc(int count, int size);
