@@ -30,6 +30,8 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Native;
 import com.sun.jna.Callback;
 import com.sun.jna.ptr.PointerByReference;
+import java.util.Arrays;
+import java.util.List;
 import static org.jvnet.libpam.impl.CLibrary.libc;
 
 /**
@@ -56,6 +58,10 @@ public interface PAMLibrary extends Library {
         public pam_message(Pointer src) {
             useMemory(src);
             read();
+        }
+
+        protected List getFieldOrder() {
+            return Arrays.asList("msg_style", "msg");
         }
     }
 
@@ -89,6 +95,10 @@ public interface PAMLibrary extends Library {
             this.resp = libc.strdup(msg);
         }
 
+        protected List getFieldOrder() {
+            return Arrays.asList("resp", "resp_retcode");
+        }
+
         public static final int SIZE = new pam_response().size();
     }
 
@@ -106,6 +116,10 @@ public interface PAMLibrary extends Library {
 
         public pam_conv(PamCallback conv) {
             this.conv = conv;
+        }
+
+        protected List getFieldOrder() {
+            return Arrays.asList("conv", "_");
         }
     }
 

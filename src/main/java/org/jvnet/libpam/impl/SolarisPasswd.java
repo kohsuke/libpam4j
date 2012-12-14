@@ -25,6 +25,10 @@
 
 package org.jvnet.libpam.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jvnet.libpam.impl.CLibrary.passwd;
 
 /**
@@ -69,6 +73,14 @@ public class SolarisPasswd extends passwd {
     @Override
     public String getPwShell() {
         return pw_shell;
+    }
+
+    @Override
+    protected List getFieldOrder() {
+        List fieldOrder = new ArrayList(super.getFieldOrder());
+        fieldOrder.addAll(Arrays.asList("pw_age", "pw_comment", "pw_gecos",
+                "pw_dir", "pw_shell"));
+        return fieldOrder;
     }
 
 }
