@@ -38,13 +38,13 @@ import java.util.Set;
  *
  * @author Kohsuke Kawaguchi
  */
-public final class UnixUser {
-    private final String userName, gecos, dir, shell;
+public final class UnixUser extends AuthenticatedUser {
+    private final String gecos, dir, shell;
     private final int uid,gid;
     private final Set<String> groups;
 
     /*package*/ UnixUser(String userName, passwd pwd) throws PAMException {
-        this.userName = userName;
+        super(userName);
         this.gecos = pwd.getPwGecos();
         this.dir = pwd.getPwDir();
         this.shell = pwd.getPwShell();
@@ -85,13 +85,6 @@ public final class UnixUser {
 
     public UnixUser(String userName) throws PAMException {
         this(userName, passwd.loadPasswd(userName));
-    }
-
-    /**
-     * Gets the unix account name. Never null.
-     */
-    public String getUserName() {
-        return userName;
     }
 
     /**

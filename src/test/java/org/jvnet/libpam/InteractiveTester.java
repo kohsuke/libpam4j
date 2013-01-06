@@ -43,8 +43,10 @@ public class InteractiveTester extends TestCase {
     }
 
     public void testOne() throws Exception {
-        UnixUser u = new PAM("sshd").authenticate(System.getProperty("user.name"), System.getProperty("password"));
+        AuthenticatedUser user = new PAM("sshd").authenticate(System.getProperty("user.name"), System.getProperty("password"));
         if(!printOnce) {
+            assertTrue(user instanceof UnixUser);
+            UnixUser u = (UnixUser)user;
             System.out.println(u.getUID());
             System.out.println(u.getGroups());
             printOnce = true;
@@ -83,12 +85,22 @@ public class InteractiveTester extends TestCase {
     }
 
     public static void main(String[] args) throws Exception {
-        UnixUser u = new PAM("sshd").authenticate(args[0], args[1]);
-        System.out.println(u.getUID());
-        System.out.println(u.getGroups());
-        System.out.println(u.getGecos());
-        System.out.println(u.getDir());
-        System.out.println(u.getShell());
+        String service = "sshd";
+        if (3 == args.length) {
+          service = args[2];
+        }
+        AuthenticatedUser user = new PAM(service).authenticate(args[0], args[1]);
+        System.out.println("Username: " + user.getUserName());
+        if (user instanceof UnixUser) {
+          UnixUser u = (UnixUser)user;
+          System.out.println(u.getUID());
+          System.out.println(u.getGroups());
+          System.out.println(u.getGecos());
+          System.out.println(u.getDir());
+          System.out.println(u.getShell());
+        } else {
+          System.out.println("User is not local");
+        }
     }
 
     private boolean printOnce;
