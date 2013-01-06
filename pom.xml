@@ -31,7 +31,7 @@
 
   <artifactId>libpam4j</artifactId>
   <packaging>jar</packaging>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
   <name>Java binding for libpam.so</name>
 
   <scm>
