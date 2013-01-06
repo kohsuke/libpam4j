@@ -38,7 +38,7 @@ import java.util.Set;
  *
  * @author Kohsuke Kawaguchi
  */
-public final class UnixUser {
+public class UnixUser {
     private final String userName, gecos, dir, shell;
     private final int uid,gid;
     private final Set<String> groups;
@@ -85,6 +85,20 @@ public final class UnixUser {
 
     public UnixUser(String userName) throws PAMException {
         this(userName, passwd.loadPasswd(userName));
+    }
+
+    /**
+     * Copy constructor for mocking. Not intended for regular use. Only for testing.
+     * This signature may change in the future.
+     */
+    protected UnixUser(String userName, String gecos, String dir, String shell, int uid, int gid, Set<String> groups) {
+        this.userName = userName;
+        this.gecos = gecos;
+        this.dir = dir;
+        this.shell = shell;
+        this.uid = uid;
+        this.gid = gid;
+        this.groups = groups;
     }
 
     /**
