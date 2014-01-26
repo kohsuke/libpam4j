@@ -49,7 +49,7 @@ import java.util.logging.Logger;
  * <li><a href="http://www.netbsd.org/docs/guide/en/chap-pam.html">NetBSD PAM programming guide</a>
  * <li><a href="http://www.kernel.org/pub/linux/libs/pam/">Linux PAM</a>
  * </ul>
- * 
+ *
  * @author Kohsuke Kawaguchi
  */
 public class PAM {
@@ -67,7 +67,7 @@ public class PAM {
      *
      * @param serviceName
      *      PAM service name. This corresponds to the service name that shows up
-     *      in the PAM configuration, 
+     *      in the PAM configuration,
      */
     public PAM(String serviceName) throws PAMException {
         pam_conv conv = new pam_conv(new PamCallback() {
@@ -79,7 +79,7 @@ public class PAM {
                 // allocates pam_response[num_msg]. the caller will free this
                 Pointer m = libc.calloc(pam_response.SIZE,num_msg);
                 resp.setPointer(0,m);
-                
+
                 for( int i=0; i<num_msg; i++ ) {
                     pam_message pm = new pam_message(msg.getPointer(POINTER_SIZE*i));
                     LOGGER.fine(pm.msg_style+":"+pm.msg);
@@ -89,11 +89,11 @@ public class PAM {
                         r.write(); // write to (*resp)[i]
                     }
                 }
-                
+
                 return PAM_SUCCESS;
             }
         });
-        
+
         PointerByReference phtr = new PointerByReference();
         check(libpam.pam_start(serviceName,null,conv,phtr), "pam_start failed");
         pht = new pam_handle_t(phtr.getValue());
