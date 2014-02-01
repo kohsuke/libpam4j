@@ -133,8 +133,10 @@ public interface CLibrary extends Library {
 
     static class Instance {
         private static CLibrary init() {
-            if (Platform.isMac() || Platform.isFreeBSD() || Platform.isOpenBSD()) {
+            if (Platform.isMac() || Platform.isOpenBSD()) {
                 return (CLibrary) Native.loadLibrary("c", BSDCLibrary.class);
+            } else if (Platform.isFreeBSD()) {
+                return (CLibrary) Native.loadLibrary("c", FreeBSDCLibrary.class);
             } else if (Platform.isSolaris()) {
                 return (CLibrary) Native.loadLibrary("c", SolarisCLibrary.class);
             } else if (Platform.isLinux()) {
