@@ -128,6 +128,7 @@ public interface PAMLibrary extends Library {
     int pam_set_item(pam_handle_t handle, int item_type, String item);
     int pam_get_item(pam_handle_t handle, int item_type, PointerByReference item);
     int pam_authenticate(pam_handle_t handle, int flags);
+    int pam_setcred(pam_handle_t handle, int flags);
     int pam_acct_mgmt(pam_handle_t handle, int flags);
     String pam_strerror(pam_handle_t handle, int pam_error);
 
