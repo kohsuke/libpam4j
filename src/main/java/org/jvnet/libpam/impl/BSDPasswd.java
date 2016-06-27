@@ -24,6 +24,7 @@
 
 package org.jvnet.libpam.impl;
 
+import com.sun.jna.Pointer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,13 @@ import org.jvnet.libpam.impl.CLibrary.passwd;
  * @author Sebastian Sdorra
  */
 public class BSDPasswd extends passwd {
+    public BSDPasswd() {
+    }
+
+    public BSDPasswd(Pointer p) {
+        super(p);
+    }
+    
     /* password change time */
     public long pw_change;
 

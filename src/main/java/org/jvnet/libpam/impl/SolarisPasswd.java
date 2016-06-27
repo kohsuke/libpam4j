@@ -25,6 +25,7 @@
 
 package org.jvnet.libpam.impl;
 
+import com.sun.jna.Pointer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +60,12 @@ public class SolarisPasswd extends passwd {
 
     public String pw_shell;
 
+    public SolarisPasswd() {
+    }
+
+    public SolarisPasswd(Pointer p) {
+        super(p);
+    }
 
     @Override
     public String getPwGecos() {
