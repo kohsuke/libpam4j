@@ -54,6 +54,7 @@ import java.util.logging.Logger;
  */
 public class PAM {
     private pam_handle_t pht;
+    private pam_conv conv;
     private int ret;
 
     /**
@@ -70,7 +71,7 @@ public class PAM {
      *      in the PAM configuration,
      */
     public PAM(String serviceName) throws PAMException {
-        pam_conv conv = new pam_conv(new PamCallback() {
+        conv = new pam_conv(new PamCallback() {
             public int callback(int num_msg, Pointer msg, Pointer resp, Pointer _) {
                 LOGGER.fine("pam_conv num_msg="+num_msg);
                 if(password==null)
