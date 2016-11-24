@@ -117,7 +117,7 @@ public class PAM {
      * @throws PAMException
      *      If the authentication fails.
      */
-    public UnixUser authenticate(String username, String password) throws PAMException {
+    public AuthenticatedUser authenticate(String username, String password) throws PAMException {
         this.password = password;
         try {
             check(libpam.pam_set_item(pht,PAM_USER,username),"pam_set_item failed");
@@ -129,10 +129,11 @@ public class PAM {
             PointerByReference r = new PointerByReference();
             check(libpam.pam_get_item(pht,PAM_USER,r),"pam_get_item failed");
             String userName = r.getValue().getString(0);
-            passwd pwd = libc.getpwnam(userName);
-            if(pwd==null)
-                throw new PAMException("Authentication succeeded but no user information is available");
-            return new UnixUser(userName,pwd);
+            if (UnixUser.exists(userName)) {
+              return new UnixUser(userName);
+            } else {
+              return new AuthenticatedUser(userName);
+            }
         } finally {
             this.password = null;
         }
