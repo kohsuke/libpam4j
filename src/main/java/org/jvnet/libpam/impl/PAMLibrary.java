@@ -119,7 +119,7 @@ public interface PAMLibrary extends Library {
         }
 
         protected List getFieldOrder() {
-            return Arrays.asList("conv", "_");
+            return Arrays.asList("conv", "__");
         }
     }
 
