@@ -24,6 +24,7 @@
 
 package org.jvnet.libpam.impl;
 
+import com.sun.jna.Pointer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +51,13 @@ import org.jvnet.libpam.impl.CLibrary.passwd;
  */
 
 public class FreeBSDPasswd extends passwd {
+    public FreeBSDPasswd() {
+    }
+
+    public FreeBSDPasswd(Pointer p) {
+        super(p);
+    }
+    
     /* password change time */
     public long pw_change;
 

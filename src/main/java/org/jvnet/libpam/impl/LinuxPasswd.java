@@ -24,6 +24,7 @@
 
 package org.jvnet.libpam.impl;
 
+import com.sun.jna.Pointer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,14 @@ import org.jvnet.libpam.impl.CLibrary.passwd;
  * @author Sebastian Sdorra
  */
 public class LinuxPasswd extends passwd {
+
+    public LinuxPasswd() {
+    }
+
+    public LinuxPasswd(Pointer p) {
+        super(p);
+    }
+    
     /* Honeywell login info */
     public String pw_gecos;
 
