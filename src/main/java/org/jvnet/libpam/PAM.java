@@ -71,7 +71,7 @@ public class PAM {
      */
     public PAM(String serviceName) throws PAMException {
         pam_conv conv = new pam_conv(new PamCallback() {
-            public int callback(int num_msg, Pointer msg, Pointer resp, Pointer _) {
+            public int callback(int num_msg, Pointer msg, Pointer resp, Pointer __) {
                 LOGGER.fine("pam_conv num_msg="+num_msg);
                 if(password==null)
                     return PAM_CONV_ERR;
