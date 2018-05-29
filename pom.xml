@@ -31,7 +31,7 @@
 
   <artifactId>libpam4j</artifactId>
   <packaging>jar</packaging>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.9</version>
   <name>Java binding for libpam.so</name>
 
   <properties>
@@ -42,6 +42,7 @@
     <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
     <url>http://${project.artifactId}.kohsuke.org/</url>
+    <tag>libpam4j-1.9</tag>
   </scm>
 
   <distributionManagement>
