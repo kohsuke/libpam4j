@@ -61,10 +61,10 @@ public class PAM {
     private int ret;
 
     /**
-     * Temporarily stored to pass a value from {@link #authenticate(String, String)}
+     * Temporarily stored to pass a value from {@link #authenticate(String, String...)}
      * to {@link pam_conv}.
      */
-    private String password;
+    private String[] factors;
 
     /**
      * Creates a new authenticator.
@@ -77,19 +77,19 @@ public class PAM {
         conv = new pam_conv(new PamCallback() {
             public int callback(int num_msg, Pointer msg, Pointer resp, Pointer __) {
                 LOGGER.fine("pam_conv num_msg="+num_msg);
-                if(password==null)
+                if(factors==null)
                     return PAM_CONV_ERR;
 
                 // allocates pam_response[num_msg]. the caller will free this
                 Pointer m = libc.calloc(pam_response.SIZE,num_msg);
                 resp.setPointer(0,m);
 
-                for( int i=0; i<num_msg; i++ ) {
+                for( int i=0; i<factors.length; i++ ) {
                     pam_message pm = new pam_message(msg.getPointer(POINTER_SIZE*i));
                     LOGGER.fine(pm.msg_style+":"+pm.msg);
-                    if(pm.msg_style==PAM_PROMPT_ECHO_OFF) {
-                        pam_response r = new pam_response(m.share(pam_response.SIZE*i));
-                        r.setResp(password);
+                    if (pm.msg_style == PAM_PROMPT_ECHO_OFF) {
+                        pam_response r = new pam_response(m.share(pam_response.SIZE * i));
+                        r.setResp(factors[i]);
                         r.write(); // write to (*resp)[i]
                     }
                 }
@@ -121,8 +121,8 @@ public class PAM {
      * @throws PAMException
      *      If the authentication fails.
      */
-    public UnixUser authenticate(String username, String password) throws PAMException {
-        this.password = password;
+    public UnixUser authenticate(String username, String... factors) throws PAMException {
+        this.factors = factors;
         try {
             check(libpam.pam_set_item(pht,PAM_USER,username),"pam_set_item failed");
             check(libpam.pam_authenticate(pht,0),"pam_authenticate failed");
@@ -138,7 +138,7 @@ public class PAM {
                 throw new PAMException("Authentication succeeded but no user information is available");
             return new UnixUser(userName,pwd);
         } finally {
-            this.password = null;
+            this.factors = null;
         }
     }
 
