@@ -138,6 +138,31 @@ public interface CLibrary extends Library {
         protected List getFieldOrder() {
             return Arrays.asList("gr_name");
         }
+
+        public group(Pointer p) {
+            super(p);
+        }
+
+        public static group loadGroup(int gid) throws PAMException {
+            // Use one Memory region to save the structure and the strings
+            // the structure is assumed to fit into 256 bytes
+            Memory mem = new Memory(256 + 4096);
+            Pointer structBase = mem.share(0);
+            Pointer bufferBase = mem.share(256);
+            PointerByReference pbr = new PointerByReference();
+            int result = libc.getgrgid_r(gid, structBase, bufferBase, 4096, pbr);
+            Pointer resultPointer = pbr.getValue();
+            if (resultPointer == null) {
+                if (result == 0) {
+                    throw new PAMException("No group information is available");
+                } else {
+                    throw new PAMException("Failed to retrieve group information (Error: " + result + ")");
+                }
+            }
+            group res = new group(mem);
+            res.read();
+            return res;
+        }
     }
 
     Pointer calloc(int count, int size);
@@ -157,6 +182,7 @@ public interface CLibrary extends Library {
      */
     int _getgroupsbymember(String user, Memory groups, int maxgids, int numgids);
     group getgrgid(int/*gid_t*/ gid);
+    int getgrgid_r(int/*gid_t*/ gid, Pointer grpStruct, Pointer buf, int bufSize, PointerByReference result);
     group getgrnam(String name);
 
     // other user/group related functions that are likely useful

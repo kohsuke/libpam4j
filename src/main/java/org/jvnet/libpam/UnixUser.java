@@ -75,9 +75,9 @@ public class UnixUser {
         groups = new HashSet<String>();
         for( int i=0; i<ngroups; i++ ) {
             int gid = m.getInt(i * sz);
-            group grp = libc.getgrgid(gid);
-            if( grp == null ) {
-            	 continue;
+            group grp = group.loadGroup(gid);
+            if (grp == null) {
+                continue;
             }
             groups.add(grp.gr_name);
         }
