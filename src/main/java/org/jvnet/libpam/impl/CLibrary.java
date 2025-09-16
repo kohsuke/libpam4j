@@ -139,7 +139,7 @@ public interface CLibrary extends Library {
             return Arrays.asList("gr_name");
         }
 
-        public group(Pointer p) {
+        private group(Pointer p) {
             super(p);
         }
 
